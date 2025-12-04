@@ -1,30 +1,9 @@
-📘 ReteleNeuronaleProiect – Documentație Etapa 4Disciplina: 
-Rețele NeuronaleInstituție: POLITEHNICA București 
-FIIRStudent: Savu Andrei Catalin
-Data: 27/11/20251. 
-📂 Structura Repository-ului Github (Versiunea Etapa 4)Structura fișierelor respectă standardele MLOps, asigurând separarea clară între datele brute, codul sursă și seturile de date preprocesate.project-name/
-├── README.md
-├── docs/
-│   └── datasets/              # Documentația setului de date
-│       ├── caracteristici_dataset
-│       ├── desciere_set_date
-│       └── descriere_caracteristici
-├── data/
-│   ├── raw/                   # Date brute (asag_simulated_train_data.csv)
-│   ├── processed/             # Date curățate (processed.csv)
-│   ├── train/                 # Set de instruire (train.csv)
-│   ├── validation/            # Set de validare (validation.csv)
-│   └── test/                  # Set de testare (test.csv)
-├── src/
-│   ├── preprocessing/         # Funcții pentru curățare și splitare (process_data.py)
-│   ├── data_acquisition/      # Script generare date simulate
-│   └── neural_network/        # Implementarea RN (viitoare etapă)
-├── config/                    # Fișiere de configurare
-└── requirements.txt           # Dependențe Python (ex: pandas, scikit-learn, transformers)
-Am refăcut documentul complet, cu numele dumneavoastră și data specificate, gata de copiat direct.
 
 📘 ReteleNeuronaleProiect – Documentație Etapa 4
-Disciplina: Rețele Neuronale Instituție: POLITEHNICA București – FIIR Student: Savu Andrei Catalin Data: 27/11/2025
+Disciplina: Rețele Neuronale 
+Instituție: POLITEHNICA București – FIIR 
+Student: Savu Andrei Catalin 
+Data: 27/11/2025
 
 1. 📂 Structura Repository-ului Github (Versiunea Etapa 4)
 Structura fișierelor respectă standardele MLOps, asigurând separarea clară între datele brute, codul sursă și seturile de date preprocesate.
@@ -48,6 +27,9 @@ project-name/
 │   └── neural_network/        # Implementarea RN (viitoare etapă)
 ├── config/                    # Fișiere de configurare
 └── requirements.txt           # Dependențe Python (ex: pandas, scikit-learn, transformers)
+
+
+
 2. 📊 Descrierea Setului de Date
 2.1 Sursa datelor
 Origine: Dataset simulat pentru ASAG (Automatic Short Answer Grading), bazat pe concepte tehnice de Rețele Neuronale și NLP.
