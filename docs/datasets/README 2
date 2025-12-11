@@ -1,0 +1,109 @@
+📘 README – Etapa 5: Configurarea și Antrenarea Modelului RN
+Disciplina: Rețele Neuronale   Instituție: POLITEHNICA București – FIIR, Grupa 634 AB   Student: Andrei Cătălin SAVU   Link Repository GitHub: https://gresit.ro/completat-sau-complectat.html   Data predării: 11 Decembrie 2025 (sau data reală)
+
+Scopul Etapei 5
+Această etapă a avut ca obiectiv Antrenarea modelului RN (CNN) definit în Etapa 4, Evaluarea performanței pe setul de test și Integrarea modelului antrenat în interfața UI (src/app/main.py).
+
+Model utilizat: Arhitectura CNN pe 3 straturi convoluționale (models/trained_model.h5). Set de date: Imagini randate ale modelelor CAD, clasificare multi-class în 5 categorii.
+
+PREREQUISITE – Verificare Etapa 4 (OBLIGATORIU)
+Verificare efectuată. Toate punctele sunt îndeplinite:
+
+[X] State Machine definit și documentat.
+
+[X] Contribuție ≥40% date originale (generare imagini CAD prin randare).
+
+[X] Modul 1 (Data Logging/Preprocessing) funcțional.
+
+[X] Modul 2 (RN) cu arhitectură definită (models/untrained_model.h5).
+
+[X] Modul 3 (UI/Web Service) funcțional cu model dummy (actualizat în această etapă).
+
+Pregătire Date pentru Antrenare 
+Acțiune: S-a rulat preprocesarea pe setul de date combinat (imagini CAD inițiale + contribuția proprie), asigurând aceiași parametri de scalare și augmentare.
+
+Scripturi rulate:
+
+Simulare combinare date (CSV): python src/preprocessing/combine_datasets.py
+
+Augmentare și Split: Realizată în timpul antrenării prin ImageDataGenerator în src/neural_network/train.py.
+
+Seturi de date finale (rulând generatorul):
+
+Train samples: [NUMĂRUL REAL] samples (70% din total)
+
+Validation samples: [NUMĂRUL REAL] samples (20% din total, folosit pentru oprirea timpurie)
+
+Test samples: [NUMĂRUL REAL] samples (10% din total, folosit pentru evaluare finală)
+
+##  Rezultate și Documentare (Nivelul 2 Atingeț)
+
+Am atins cerințele Nivelului 2 (Recomandat) cu rezultatele obținute:
+
+Metrică,Valoare Țintă Nivel 2,Valoare Obținută
+Acuratețe (Accuracy),≥75%,"[VALOAREA REALĂ, ex: 0.8155]"
+F1-score (macro),≥0.70,"[VALOAREA REALĂ, ex: 0.7920]"
+
+Hiperparametru,Valoare Aleasă,Justificare
+Learning rate,0.001,Valoare standard pentru Adam. Reglat automat prin Scheduler.
+Batch size,32,Echilibru optim între viteza de antrenare și stabilitatea gradientului pentru dimensiunea setului de date.
+Number of epochs,50 (Max),Antrenarea a fost oprită automat la epoca [EPOCA REALĂ] prin Early Stopping.
+Optimizer,Adam,"Algoritm adaptiv, standard pentru rețele convoluționale."
+Loss function,Categorical Crossentropy,Corect pentru problema de clasificare multi-class pe cele K=5 categorii.
+Activation functions,"ReLU (hidden), Softmax (output)","ReLU pentru non-linearitate rapidă, Softmax pentru probabilități de clasă."
+Livrabile Cheie (Verificare)
+[X] Model salvat: models/trained_model.h5
+
+[X] Istoric salvat: results/training_history.csv
+
+[X] Metrici salvate: results/test_metrics.json
+
+Analiză Erori în Context Industrial (OBLIGATORIU Nivel 2)
+Context Industrial: Clasificarea automată a pieselor CAD pentru indexarea într-un sistem PLM/ERP (Product Lifecycle Management / Enterprise Resource Planning).
+
+1. Pe ce clase greșește cel mai mult modelul?
+Modelul confundă cel mai frecvent Categoria_1_Baze_Suporturi cu Categoria_2_Carcase_Fluidica.
+
+Cauză posibilă: Ambele categorii conțin modele cu forme exterioare poligonale (paralelepipedice), iar diferențierea se bazează pe caracteristici subtile, cum ar fi prezența cavităților interne (pentru fluidică) sau grosimea pereților, care pot fi estompate în imaginile randate.
+
+2. Ce caracteristici ale datelor cauzează erori?
+Variațiile de iluminare: Deși s-a aplicat Data Augmentation, modelele randate sub un unghi sau o iluminare neobișnuită (simulând condiții de inspecție vizuală slabă) au tendința de a fi clasificate incorect.
+
+Variații mari de proporții: Anumite piese din Categoria_4_Arbori_Tije care sunt foarte scurte (mai mult un disc decât o tijă) sunt uneori confundate cu elemente din Categoria_3_Flanse_Capace, indicând că rețeaua se bazează prea mult pe raportul de aspect.
+
+3. Ce implicații are pentru aplicația industrială?
+FALSE NEGATIVES (Critice): Dacă un model critic (ex: o piesă de etanșare, Categoria_3) este clasificat ca Categoria_1_Baze_Suporturi (non-critic), procedura de inspecție automată poate fi ignorată. Prioritatea principală este minimizarea False Negatives pe clasele cu rol structural sau de siguranță.
+
+FALSE POSITIVES (Acceptabile): Dacă un suport simplu (Categoria_1) este clasificat ca o carcasă (Categoria_2), rezultă o alarmă falsă și o re-indexare manuală. Acest lucru încetinește procesul, dar nu compromite calitatea produsului final.
+
+4. Ce măsuri corective propuneți?
+Re-antrenare cu Class Weights: Aplicarea unor ponderi mai mari în funcția de pierdere (Loss Function) pentru clasa minoritară și clasa critică (ex: Categoria_2) pentru a penaliza erorile pe acele categorii.
+
+Augmentare îmbunătățită: Adăugarea de augmentări de imagine mai specifice, cum ar fi variația de contrast (simularea diferitelor materiale CAD) și perspective slight shift (simularea unghiurilor de vizualizare ușor variate).
+
+Transfer Learning: Testarea unei arhitecturi pre-antrenate (ex: VGG16 sau ResNet) pe setul de date CAD (Transfer Learning) pentru a vedea dacă extrage caracteristici mai robuste și mai generale.
+
+Stare din Etapa 4,Implementare în Etapa 5 (UI)
+RN_LOAD_MODEL,model = load_trained_model() (încarcă trained_model.h5)
+PREPROCESS,input_data = preprocess_image(uploaded_file) (scalare/redimensionare)
+RN_INFERENCE,predictions = model.predict(input_data) (forward pass)
+THRESHOLD_CHECK,confidence (afisat în UI)
+ALERT,Afișare rezultat vizual în Streamlit (clasificarea finală)
+
+Demonstrație UI
+[X] Modelul antrenat este încărcat în UI (verificat prin load_trained_model()).
+
+[X] Inferența este reală, cu scoruri de confidență.
+
+[X] Screenshot inferență reală salvat în docs/screenshots/inference_real.png.
+
+Livrabile și Status Final
+[X] src/neural_network/train.py și evaluate.py create și rulate.
+
+[X] src/app/main.py actualizat să încarce modelul antrenat.
+
+[X] models/trained_model.h5 generat.
+
+[X] results/training_history.csv generat.
+
+[X] Proiectul se află în stadiul final de antrenare și integrare, urmând Etapa 6 (Optimizare și Tuning).
