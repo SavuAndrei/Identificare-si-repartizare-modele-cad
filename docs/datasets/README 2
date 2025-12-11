@@ -1,5 +1,5 @@
 📘 README – Etapa 5: Configurarea și Antrenarea Modelului RN
-Disciplina: Rețele Neuronale   Instituție: POLITEHNICA București – FIIR, Grupa 634 AB   Student: Andrei Cătălin SAVU   Link Repository GitHub: https://gresit.ro/completat-sau-complectat.html   Data predării: 11 Decembrie 2025 (sau data reală)
+Disciplina: Rețele Neuronale   Instituție: POLITEHNICA București – FIIR, Grupa 634 AB   Student: Andrei Cătălin SAVU   
 
 Scopul Etapei 5
 Această etapă a avut ca obiectiv Antrenarea modelului RN (CNN) definit în Etapa 4, Evaluarea performanței pe setul de test și Integrarea modelului antrenat în interfața UI (src/app/main.py).
