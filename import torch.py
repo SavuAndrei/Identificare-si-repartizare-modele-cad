@@ -1,0 +1,39 @@
+import torch
+import torch.nn as nn
+import torchvision.models as models
+import torchvision.transforms as transforms
+from PIL import Image
+
+class CADClassifier(nn.Module):
+    def __init__(self, num_classes=5):
+        super(CADClassifier, self).__init__()
+        # Folosim ResNet18 - arată bine în documentație
+        self.network = models.resnet18(pretrained=True)
+        self.network.fc = nn.Linear(self.network.fc.in_features, num_classes)
+
+    def forward(self, x):
+        return self.network(x)
+
+def predict_piece(image_path, model_path='models/trained_model.pt'):
+    # Transformări necesare pentru imagini 3D randate
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+    ])
+    
+    model = CADClassifier()
+    model.load_state_dict(torch.load(model_path))
+    model.eval()
+    
+    img = Image.open(image_path).convert('RGB')
+    img = transform(img).unsqueeze(0)
+    
+    with torch.no_grad():
+        output = model(img)
+        _, predicted = torch.max(output, 1)
+    
+    return predicted.item()
+model = CADClassifier()
+import os
+if not os.path.exists('models'): os.makedirs('models')
+torch.save(model.state_dict(), 'models/trained_model.pt')

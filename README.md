@@ -142,23 +142,3 @@ Justificarea State Machine-ului ales:Am ales arhitectura de Clasificare Vizuală
 <img width="754" height="1069" alt="Diagramă fără titlu drawio (1)" src="https://github.com/user-attachments/assets/8a83b4b5-fc23-4eab-a0ec-700357cc68be" />
 
 
-## 🚀 Optimizarea Performanței și Configurare Sistem
-
-Pentru a asigura o rulare fluidă a modelului de clasificare (TensorFlow) și a interfeței Web (Flask), au fost aplicate următoarele optimizări:
-
-### 1. Optimizarea Modelului AI
-* **Normalizarea Datelor:** Imaginile sunt scalate la intervalul $[0, 1]$ prin împărțirea valorilor pixelilor la 255. Acest lucru accelerează convergența modelului și îmbunătățește precizia predicțiilor.
-* **Redimensionare Standard:** Toate imaginile sunt procesate la o rezoluție fixă de $128 \times 128$ pixeli pentru a echilibra detaliile vizuale cu viteza de procesare (Inference Time).
-* **Caching Model:** În `app.py`, modelul `.h5` este încărcat o singură dată la pornirea serverului, evitând latența cauzată de reîncărcarea acestuia la fiecare cerere de clasificare.
-
-### 2. Optimizarea Resurselor Windows
-Deoarece antrenarea și rularea rețelelor neuronale consumă cantități semnificative de RAM, se recomandă următoarele setări de sistem:
-* **Memorie Virtuală (Paging File):** Dacă sistemul dispune de puțin RAM fizic, a fost configurată o alocare manuală de memorie virtuală (Custom Size) de minim 1.5x dimensiunea RAM-ului instalat.
-* **Alocare Partiții:** Pentru o organizare eficientă, proiectul este stocat pe o partiție cu spațiu suficient (recomandat minim 50GB liberi pe `C:` pentru librăriile Python și fișierele temporare de sistem).
-
-### 3. Utilizare Interfață Web
-1. Pornește serverul: `python app.py`.
-2. Accesează `http://127.0.0.1:5000`.
-3. Încarcă o imagine din folderul `date_clasificari`.
-4. Sistemul va returna categoria piesei și gradul de confidență în timp real.
-
