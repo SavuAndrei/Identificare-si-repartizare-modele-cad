@@ -1,0 +1,25 @@
+Minim 4 experimente de optimizare (documentare)
+
+Baseline (rulat)
+- Modificare: Configurația inițială (referință)
+- Hiperparametri: LR=0.001, Batch=32, Epochs=20, Dropout=0.5, rotation_range=10, zoom_range=0.1, horizontal_flip=True, Optimizer=Adam
+- Rezultate: Train_Acc=0.9096, Train_Loss=0.2469, Val_Acc=0.9202, Val_Loss=0.2238, Best_Val_Acc=0.9215 (epoca 18), F1_Macro=0.9379
+- Observații: _____
+
+Experiment 2 (rulat)
+- Modificare: Dropout redus 0.5 → 0.3
+- Hiperparametri: LR=0.001, Batch=32, Epochs=20, Dropout=0.3, rotation_range=10, zoom_range=0.1, horizontal_flip=True, Optimizer=Adam
+- Rezultate: Train_Acc=0.9345, Train_Loss=0.1786, Val_Acc=0.9405, Val_Loss=0.1790, Best_Val_Acc=0.9405 (epoca 20), F1_Macro=0.9442
+- Observații: _____
+
+Experiment 3 (rulat)
+- Modificare: Batch 32 → 64
+- Hiperparametri: LR=0.001, Batch=64, Epochs=20, Dropout=0.5, rotation_range=10, zoom_range=0.1, horizontal_flip=True, Optimizer=Adam
+- Rezultate: Train_Acc=0.9052, Train_Loss=0.2676, Val_Acc=0.9093, Val_Loss=0.2531, Best_Val_Acc=0.9107 (epoca 16), F1_Macro=0.9260
+- Observații: _____
+
+Experiment 4 (rulat)
+- Modificare: Learning rate 0.001 → 0.0005
+- Hiperparametri: LR=0.0005, Batch=32, Epochs=20, Dropout=0.5, rotation_range=10, zoom_range=0.1, horizontal_flip=True, Optimizer=Adam
+- Rezultate: Train_Acc=0.9119, Train_Loss=0.2505, Val_Acc=0.9229, Val_Loss=0.2217, Best_Val_Acc=0.9229 (epoca 20), F1_Macro=0.9431
+- Observații: _____
