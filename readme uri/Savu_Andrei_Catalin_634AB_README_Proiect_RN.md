@@ -6,7 +6,7 @@
 | **Grupa / Specializare** | 634 AB / Informatică Industrială |
 | **Disciplina** | Rețele Neuronale |
 | **Instituție** | POLITEHNICA București – FIIR |
-| **Link Repository GitHub** | https://github.com/SavuAndrei/Proiect_RN |
+| **Link Repository GitHub** | https://github.com/SavuAndrei/Identificare-si-repartizare-modele-cad.git |
 | **Acces Repository** | Public |
 | **Stack Tehnologic** | Python |
 | **Domeniul Industrial de Interes (DII)** | Robotică / Producție - Clasificare CAD |
