@@ -1,0 +1,160 @@
+@startuml CAD_Classifier_State_Machine
+!define ACCENT1 #3498db
+!define ACCENT2 #f39c12
+!define ACCENT3 #27ae60
+!define ACCENT4 #e74c3c
+!define ACCENT5 #9673a6
+
+skin rose
+
+title State Machine: CAD Parts Classifier (Flask + CNN)
+note right : Flux procesare imagine → predicție în timp real
+
+[*] --> IDLE
+
+state IDLE {
+  [*] --> Așteptare
+  Așteptare --> [*]
+  note right
+    Server activ
+    Așteptă request POST
+  end note
+}
+
+state ACQUIRE_DATA {
+  [*] --> Upload
+  Upload --> Validare
+  Validare --> [*]
+  note right
+    Primire fișier
+    Verificare format PNG/JPG
+    Salvare în cache/
+  end note
+}
+
+state PREPROCESS {
+  [*] --> Redimensionare
+  Redimensionare --> Normalizare
+  Normalizare --> [*]
+  note right
+    Resize la 32x32 px
+    Normalizare 1./255
+    Encoding one-hot
+  end note
+}
+
+state INFERENCE {
+  [*] --> Foward_Pass
+  Foward_Pass --> Softmax
+  Softmax --> [*]
+  note right
+    Forward pass CNN 3-strat
+    32 → 64 → 128 filters
+    Output: 4 probabilități
+  end note
+}
+
+state DECISION {
+  [*] --> Argmax
+  Argmax --> Threshold_Check
+  Threshold_Check --> [*]
+  note right
+    Clasa = argmax(output)
+    Confidence = max(probs)
+    Verificare threshold 70%
+  end note
+}
+
+state OUTPUT_RESPONSE {
+  [*] --> Format_JSON
+  Format_JSON --> Send_HTTP
+  Send_HTTP --> [*]
+  note right
+    {"categoria": "Surub"}
+    {"confidence": "91%"}
+    {"timestamp": "..."}
+  end note
+}
+
+state CLEANUP {
+  [*] --> Delete_Cache
+  Delete_Cache --> Logging
+  Logging --> [*]
+  note right
+    Ștergere fișier upload
+    Log predicție în JSON
+    Timeout 5 sec
+  end note
+}
+
+state ERROR {
+  [*] --> Catch_Exception
+  Catch_Exception --> Log_Error
+  Log_Error --> [*]
+  note right
+    File invalid/corrupt
+    Model missing
+    Timeout/Memory error
+    Returnează HTTP 400/500
+  end note
+}
+
+IDLE --> ACQUIRE_DATA : File uploadat\n(POST /clasifica)
+ACQUIRE_DATA --> PREPROCESS : Validat OK\n(Format corect)
+ACQUIRE_DATA --> ERROR : Exception\n(File corrupt/invalid)
+
+PREPROCESS --> INFERENCE : Features ready\n(Array 32x32x3)
+PREPROCESS --> ERROR : Exception\n(Memorie/Timeout)
+
+INFERENCE --> DECISION : Predicție OK\n(Output tensor [1,4])
+INFERENCE --> ERROR : Exception\n(Model error)
+
+DECISION --> OUTPUT_RESPONSE : Confidence ≥70%\n(High confidence) #ACCENT3
+DECISION --> ERROR : Confidence <70%\n(Low confidence) #ACCENT4
+
+OUTPUT_RESPONSE --> CLEANUP : Răspuns trimis\n(HTTP 200 OK)
+CLEANUP --> IDLE : Gata!\n(Succes) #ACCENT3
+
+ERROR --> IDLE : Recovery/Logged\n(HTTP 400/500) #ACCENT4
+
+note bottom of IDLE
+  Stare inițială
+  Port: 3000
+  Flask debug=True
+end note
+
+note bottom of ACQUIRE_DATA
+  Timeout: 30 sec
+  Max size: 10 MB
+  Formule acceptate: PNG, JPG, JPEG
+end note
+
+note bottom of INFERENCE
+  Latență: ~35ms pe CPU
+  Batch size: 1 (single image)
+  Model: trained_cad_classifier.h5
+end note
+
+note bottom of DECISION
+  Threshold: 0.7 (70%)
+  4 clase output:
+  - Categoria 1: Surub
+  - Categoria 2: Bolt De Ghidaj
+  - Categoria 3: Piulita
+  - Categoria 4: Saiba
+end note
+
+note bottom of CLEANUP
+  Cache dir: ./cache/
+  Log format: JSON
+  Log location: ./results/inference_logs.json
+end note
+
+legend right
+    |<#ACCENT3> Path succes | Verde |
+    |<#ACCENT4> Path error | Roșu |
+    |<#ACCENT2> Decision point | Galben |
+    |<#9673a6> Start state | Violet |
+endlegend
+
+@enduml

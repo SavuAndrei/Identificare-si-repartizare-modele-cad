@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-01-22T14:30:00.000Z" agent="Mozilla/5.0" version="20.8.0">
+  <diagram id="state_machine_cad" name="State Machine - CAD Classifier">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- IDLE State -->
+        <mxCell id="idle_state" value="IDLE&#xa;Așteptare input" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="120" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ACQUIRE_DATA State -->
+        <mxCell id="acquire_state" value="ACQUIRE_DATA&#xa;Upload fișier" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4e6f1;strokeColor=#3498db;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="250" y="300" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- PREPROCESS State -->
+        <mxCell id="preprocess_state" value="PREPROCESS&#xa;Normalizare 32x32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d4e6f1;strokeColor=#3498db;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="450" y="300" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- INFERENCE State -->
+        <mxCell id="inference_state" value="INFERENCE&#xa;Forward pass CNN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5e6;strokeColor=#f39c12;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="650" y="300" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- DECISION State -->
+        <mxCell id="decision_state" value="DECISION&#xa;Argmax + threshold" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fdeaa8;strokeColor=#f1c40f;strokeWidth=2;fontSize=11;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="850" y="280" width="140" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- OUTPUT/RESPONSE State -->
+        <mxCell id="output_state" value="OUTPUT/RESPONSE&#xa;Return JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5f4e6;strokeColor=#27ae60;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="650" y="520" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- CLEANUP State -->
+        <mxCell id="cleanup_state" value="CLEANUP&#xa;Ștergere cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5f4e6;strokeColor=#27ae60;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="450" y="520" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ERROR State -->
+        <mxCell id="error_state" value="ERROR&#xa;Exception handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fadbd8;strokeColor=#e74c3c;strokeWidth=2;fontSize=12;fontStyle=bold;" vertex="1" parent="1">
+          <mxGeometry x="250" y="520" width="140" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Transitions: IDLE → ACQUIRE_DATA -->
+        <mxCell id="trans1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor=#333333;" edge="1" parent="1" source="idle_state" target="acquire_state">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" />
+            <Array as="points" />
+          </mxGeometry>
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="File uploadat" style="fontSize=10;edgeLabel;html=1;" vertex="1" parent="trans1">
+              <mxGeometry x="-0.5" y="-10" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: ACQUIRE_DATA → PREPROCESS -->
+        <mxCell id="trans2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor=#333333;" edge="1" parent="1" source="acquire_state" target="preprocess_state">
+          <mxGeometry relative="1" as="geometry" />
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Validat OK" style="fontSize=10;edgeLabel;html=1;" vertex="1" parent="trans2">
+              <mxGeometry x="-0.5" y="-10" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: PREPROCESS → INFERENCE -->
+        <mxCell id="trans3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor=#333333;" edge="1" parent="1" source="preprocess_state" target="inference_state">
+          <mxGeometry relative="1" as="geometry" />
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Features ready" style="fontSize=10;edgeLabel;html=1;" vertex="1" parent="trans3">
+              <mxGeometry x="-0.5" y="-10" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: INFERENCE → DECISION -->
+        <mxCell id="trans4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor:#333333;" edge="1" parent="1" source="inference_state" target="decision_state">
+          <mxGeometry relative="1" as="geometry" />
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Predicție OK" style="fontSize=10;edgeLabel;html=1;" vertex="1" parent="trans4">
+              <mxGeometry x="-0.5" y="-10" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: DECISION → OUTPUT (High confidence) -->
+        <mxCell id="trans5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor=#27ae60;" edge="1" parent="1" source="decision_state" target="output_state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="500" />
+              <mxPoint x="720" y="500" />
+            </Array>
+          </mxGeometry>
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Confidence ≥70%" style="fontSize=10;edgeLabel;html=1;fontColor=#27ae60;fontStyle=bold;" vertex="1" parent="trans5">
+              <mxGeometry x="0" y="-20" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: DECISION → ERROR (Low confidence) -->
+        <mxCell id="trans6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor:#e74c3c;" edge="1" parent="1" source="decision_state" target="error_state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="620" />
+              <mxPoint x="320" y="620" />
+            </Array>
+          </mxGeometry>
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Confidence &lt;70%" style="fontSize=10;edgeLabel;html=1;fontColor=#e74c3c;fontStyle=bold;" vertex="1" parent="trans6">
+              <mxGeometry x="0" y="20" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: OUTPUT → CLEANUP -->
+        <mxCell id="trans7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor:#333333;" edge="1" parent="1" source="output_state" target="cleanup_state">
+          <mxGeometry relative="1" as="geometry" />
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Răspuns trimis" style="fontSize=10;edgeLabel;html=1;" vertex="1" parent="trans7">
+              <mxGeometry x="-0.5" y="-10" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: ERROR → IDLE (Recovery) -->
+        <mxCell id="trans8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor:#e74c3c;dashed=1;" edge="1" parent="1" source="error_state" target="idle_state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="180" />
+              <mxPoint x="110" y="180" />
+            </Array>
+          </mxGeometry>
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Recover/Log" style="fontSize=10;edgeLabel;html=1;fontColor=#e74c3c;" vertex="1" parent="trans8">
+              <mxGeometry x="0" y="-20" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Transitions: CLEANUP → IDLE (Success) -->
+        <mxCell id="trans9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor:#27ae60;dashed=1;" edge="1" parent="1" source="cleanup_state" target="idle_state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="180" />
+              <mxPoint x="110" y="180" />
+            </Array>
+          </mxGeometry>
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Gata" style="fontSize=10;edgeLabel;html=1;fontColor=#27ae60;fontStyle=bold;" vertex="1" parent="trans9">
+              <mxGeometry x="0" y="-20" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Error handling from any state -->
+        <mxCell id="trans10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor:#e74c3c;dashed=1;" edge="1" parent="1" source="acquire_state" target="error_state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="400" />
+              <mxPoint x="320" y="400" />
+            </Array>
+          </mxGeometry>
+          <mxEdgeLabel offset="0" relative="1" align="top" verticalAlign="bottom">
+            <mxCell textPosition="center" relative="1" wrapping="0" closable="0" connectable="0" value="Exception" style="fontSize=9;edgeLabel;html=1;fontColor:#e74c3c;" vertex="1" parent="trans10">
+              <mxGeometry x="0" y="10" relative="1" as="geometry" />
+            </mxCell>
+          </mxEdgeLabel>
+        </mxCell>
+
+        <!-- Start circle -->
+        <mxCell id="start_circle" value="" style="ellipse;html=1;shape=ellipse;margin=3;fillColor=#000000;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="150" width="20" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow from start to IDLE -->
+        <mxCell id="start_arrow" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;strokeWidth=2;strokeColor=#333333;" edge="1" parent="1" source="start_circle" target="idle_state">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend/Title -->
+        <mxCell id="title" value="State Machine: CAD Parts Classifier (Flask + CNN)" style="text;html=1;align=left;verticalAlign=top;fontSize=16;fontStyle=bold;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="20" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="legend" value="Solid → Normal flow&#xa;Dashed → Error/Recovery&#xa;Green → Success path&#xa;Red → Error path" style="text;html=1;align=left;verticalAlign=top;fontSize=10;fontColor=#666666;spacing=3;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="50" y="700" width="400" height="80" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
