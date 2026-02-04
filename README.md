@@ -551,6 +551,9 @@ Dacă aș reîncepe, aș face următoarele decizii diferit:
 
 5. Szegedz, C., Zaremba, W., Sutskever, I., & Bruna, J. (2014). Intriguing properties of neural networks. *ICLR 2014*. URL: https://arxiv.org/abs/1312.6199
 
+6. Baza de date :https://images.cv/dataset/mechanical-parts-image-classification-dataset?utm_source
+
+
 ---
 
 ## 12. Checklist Final (Auto-verificare înainte de predare)
@@ -588,7 +591,7 @@ Dacă aș reîncepe, aș face următoarele decizii diferit:
 
 - [X] Model antrenat **de la zero** (weights inițializate random în Sequential liniile 57-73)
 - [X] **Minimum 40% date originale** (60% - augmentări în data/generated/)
-- [X] Cod propriu (train.py, clasifica.py, server.py scris de mine si cu ajutorul cautarilor online pe google si youtube plus alte surse; TensorFlow/Keras sunt libraries, Baza de date :https://images.cv/dataset/mechanical-parts-image-classification-dataset?utm_source)
+- [X] Cod propriu (train.py, clasifica.py, server.py scris de mine si cu ajutorul cautarilor online pe google si youtube plus alte surse; TensorFlow/Keras sunt libraries, )
 
 ---
 
